@@ -81,3 +81,37 @@ module.exports = {
   rules: {},
 };
 ```
+
+`package.json` の scripts 下記を追記
+
+```
+"lint": "eslint \"./**/*.ts\" --ignore-path .gitignore . && prettier --write \"**/*.ts\" --ignore-path .gitignore"
+```
+
+### husky 導入
+
+コミット時に自動的に eslint の解析と prettier の整形を実行させる
+
+```
+npm install -D husky
+```
+
+`package.json` に下記を追記
+
+```
+  "lint-staged": {
+    "*.{ts}": [
+      "eslint --fix --ext \".ts\" --ignore-path .gitignore .",
+      "prettier --write \"**/*.ts\" --ignore-path .gitignore"
+    ]
+  }
+```
+
+`.husky/pre-commit` ファイル作成
+
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged
+```
