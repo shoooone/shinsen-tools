@@ -99,6 +99,11 @@ npm install -D husky
 `package.json` に下記を追記
 
 ```
+  "scripts": {
+    --- 中略 ---
+    "prepare": "husky install",
+  },
+  --- 中略 ---
   "lint-staged": {
     "*.{ts}": [
       "eslint --fix --ext \".ts\" --ignore-path .gitignore .",
@@ -115,3 +120,12 @@ npm install -D husky
 
 npx lint-staged
 ```
+
+`.gitignore` に以下追加
+
+```
+!.husky/pre-commit
+.husky/*
+```
+
+※この時点で一旦 `node_modules/` を削除し、`npm ci` を実行しておくと良い。
